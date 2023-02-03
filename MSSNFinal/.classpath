@@ -7,5 +7,6 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="lib" path="C:/Users/Beatriz/Documents/MyDocumentsFolder/Universidade/MSSN/processing-3.5.4/core/library/core.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Beatriz/Downloads/interfascia/interfascia/library/interfascia.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

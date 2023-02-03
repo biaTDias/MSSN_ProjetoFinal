@@ -1,6 +1,8 @@
 package setup;
 
 
+import dodger.DodgerApp;
+import dodger.GameSettings;
 import processing.core.PApplet;
 
 public class ProcessingSetup extends PApplet{
@@ -10,7 +12,7 @@ public class ProcessingSetup extends PApplet{
 
 	@Override
 	public void settings(){
-		size(900, 900);
+		size(GameSettings.width, GameSettings.height);
 	}
 	
 	@Override
@@ -43,7 +45,7 @@ public class ProcessingSetup extends PApplet{
 	}
 	
 	public static void main(String[] args) {
-		app = new Hello();
+		app = new DodgerApp();
 		PApplet.main(ProcessingSetup.class);
 	}
 }
