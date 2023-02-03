@@ -8,6 +8,7 @@ import setup.IProcessingApp;
 import tools.SubPlot;
 
 public class DodgerApp implements IProcessingApp {
+	
 	private GameHandler handler = new GameHandler();
 	
 	private double[] window = {-10, 10, -10, 10};
@@ -15,7 +16,12 @@ public class DodgerApp implements IProcessingApp {
 	private SubPlot plt;
 
 	private PFont fontStd;
-
+	private PFont fontMenu;
+	
+	int buttonY, buttonHeight, buttonWidth;
+	int[] buttonXs = new int [3];
+	
+	
 	@Override
 	public void setup(PApplet p) {
 		plt = new SubPlot(window, viewport, p.width, p.height);
@@ -23,6 +29,8 @@ public class DodgerApp implements IProcessingApp {
 		
 		
 		fontStd = p.createFont(GameSettings.fontStdFamily,GameSettings.fontStdSize,true);
+		fontMenu = p.createFont("Facon.otf", 128);
+		
 		
 //		//Para ver as fonts disponiveis
 //		for (String var : PFont.list()) 
@@ -66,9 +74,21 @@ public class DodgerApp implements IProcessingApp {
 
 	private void displayMenu(PApplet p) {
 		p.background(255);
-		p.textFont(fontStd, 22);
-		p.fill(0);
-		p.text("This is the Main menu!", p.width / 2, p.height / 2);
+		p.textFont(fontMenu);
+		
+		// Título
+		p.fill(p.color(196, 13, 0));
+		p.text("Dodger Game", p.width / 2, p.height / 2);
+		
+		// Botão Play
+		for(int i = 0; i < buttonXs.length; i++) {
+			if (p.mouseX >= buttonXs[i] && p.mouseX <= buttonXs[i]+buttonWidth && 
+				      p.mouseY >= buttonY && p.mouseY <= buttonY+buttonHeight) {
+				    displayGame(p, i);
+				    System.out.println("HEY");
+				    break;
+				  }
+		}
 
 	}
 
