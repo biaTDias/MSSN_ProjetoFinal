@@ -21,7 +21,7 @@ public class DNABoid {
 		
 		//Vision
 		visionDistance = random(2, 4);
-		visionSafeDistance = 0.25f * visionDistance;
+		visionSafeDistance = 0.6f * visionDistance;
 		visionAngle = (float) Math.PI;
 		
 		//Behaviors

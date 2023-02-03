@@ -37,8 +37,6 @@ public class DodgerApp implements IProcessingApp {
 
 	@Override
 	public void draw(PApplet p, float dt) {
-
-		
 		display(p, dt);
 	}
 
@@ -84,14 +82,14 @@ public class DodgerApp implements IProcessingApp {
 		p.background(255);
 		handler.calculateChanges(p, dt, plt);
 		
-		
-		
 		p.textFont(fontStd, 22);
 		p.fill(0);
 		p.text("This is the game screen!", p.width / 2, p.height / 2);
+		p.text("Current Score is "+handler.score, p.width / 2, 100);
 		
 		
-		handler.player.display(p, plt);
+		
+		handler.displayActors(p, plt);
 
 	}
 
@@ -100,6 +98,7 @@ public class DodgerApp implements IProcessingApp {
 		p.textFont(fontStd, 22);
 		p.fill(0);
 		p.text("This is the Game Over screen!", p.width / 2, p.height / 2);
+		p.text("Final Score is "+handler.score, p.width / 2, 100);
 
 	}
 

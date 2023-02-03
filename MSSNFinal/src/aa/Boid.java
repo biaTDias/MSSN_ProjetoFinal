@@ -16,12 +16,12 @@ public class Boid extends Body{
 	private PShape shape;
 	public DNABoid dna;
 	protected Eye eye;
-	private List<Behavior> behaviors;
+	protected List<Behavior> behaviors;
 	protected float phiWander;
 	
 	private double[] window;
 	
-	private float sumWeights;
+	protected float sumWeights;
 
 	public Boid(PVector pos, float mass, float radius, int color, PApplet p, SubPlot plt) {
 		super(pos, new PVector(), mass, radius, color);
@@ -73,7 +73,7 @@ public class Boid extends Body{
 		move(dt, vd);
 	}
 	
-	private void move(float dt, PVector vd) {
+	protected void move(float dt, PVector vd) {
 		vd.normalize().mult(dna.maxSpeed);
 		PVector fs = PVector.sub(vd, vel);
 		applyForce(fs.limit(dna.maxForce));

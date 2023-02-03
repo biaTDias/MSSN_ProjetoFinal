@@ -7,7 +7,6 @@
 package dodger;
 
 import processing.core.PApplet;
-import processing.core.PFont;
 
 
 public class GameSettings extends PApplet{
@@ -18,4 +17,14 @@ public class GameSettings extends PApplet{
 	//Font Standard
 	public final static String fontStdFamily = "Verdana";
 	public final static int fontStdSize = 22;
+	
+	//Player settings
+	public final static int PlayerMaxSpeed = 8;
+	public final static int PlayerMaxForce = 15;
+	
+	//Police settings
+	public final static int PoliceMaxSpeed = 15;
+	public final static int PoliceMaxForce = 7;
+	public final static int numbStarterCars = 7;
+	public final static int carSpawnValue = 80;
 }
