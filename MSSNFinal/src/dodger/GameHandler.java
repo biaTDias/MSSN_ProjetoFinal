@@ -14,7 +14,7 @@ import tools.SubPlot;
 public class GameHandler {
 	protected int score;
 	// se calhar mudar para private e fazer um getter? more game state protection
-	protected State state = State.PLAYING;
+	protected State state = State.MENU;
 
 	protected Player player;
 	private Body playerTarget;
@@ -111,11 +111,11 @@ public class GameHandler {
 			Police c = (Police) cars.get(carCount);
 			c.checkColision(cars);
 			if (!((Police) c).alive) {
-				//TODO por aqui a origem do Particle system da explosão
+				//TODO por aqui a origem do Particle system da explosï¿½o
 				
 				
 				// TODO enves de aumentar a score linearmente, dar a possibilidade de multiplyer
-				// quando se destroem vários carros ao mesmo tempo
+				// quando se destroem vï¿½rios carros ao mesmo tempo
 				cars.remove(carCount);
 				score += 50;
 			}
