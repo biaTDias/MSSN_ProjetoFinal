@@ -18,6 +18,8 @@ public class DodgerApp implements IProcessingApp {
 	private PFont fontStd;
 	private PFont fontMenu;
 	
+	protected int mainColor;
+	
 	int buttonY, buttonHeight, buttonWidth;
 	int[] buttonXs = new int [3];
 	
@@ -25,18 +27,15 @@ public class DodgerApp implements IProcessingApp {
 	@Override
 	public void setup(PApplet p) {
 		plt = new SubPlot(window, viewport, p.width, p.height);
-		handler.setup(p, plt);
+		mainColor = p.color(GameSettings.PlayerColors[0], GameSettings.PlayerColors[1], GameSettings.PlayerColors[2]);
+		handler.setup(p, plt, mainColor);
 		
 		
 		fontStd = p.createFont(GameSettings.fontStdFamily,GameSettings.fontStdSize,true);
 		fontMenu = p.createFont("Facon.otf", 128);
 		
 		
-//		//Para ver as fonts disponiveis
-//		for (String var : PFont.list()) 
-//		{ 
-//		    System.out.println(var);
-//		}
+		
 	}
 
 	// ###########################################################################################################
@@ -65,17 +64,17 @@ public class DodgerApp implements IProcessingApp {
 			break;
 		case DEAD:
 			// game over screen
-			displayGameOver(p);
+			displayGameOver(p, dt);
 			break;
 		}
 	}
 
 	private void displayMenu(PApplet p) {
-		p.background(255);
+		p.background(GameSettings.backcolor);
 		p.textFont(fontMenu);
 		
 		// Título
-		p.fill(p.color(196, 13, 0));
+		p.fill(mainColor);
 		p.text("Dodger Game", p.width / 2, p.height / 2);
 		
 		// Botão Play
@@ -91,7 +90,7 @@ public class DodgerApp implements IProcessingApp {
 	}
 
 	private void displayPause(PApplet p) {
-		p.background(255);
+		p.background(GameSettings.backcolor, 80);
 		p.textFont(fontStd, 22);
 		p.fill(0);
 		p.text("This is the Pause menu!", p.width / 2, p.height / 2);
@@ -99,26 +98,23 @@ public class DodgerApp implements IProcessingApp {
 	}
 
 	private void displayGame(PApplet p, float dt) {
-		p.background(255);
-		handler.calculateChanges(p, dt, plt);
-		
-		p.textFont(fontStd, 22);
-		p.fill(0);
-		p.text("This is the game screen!", p.width / 2, p.height / 2);
-		p.text("Current Score is "+handler.score, p.width / 2, 100);
-		
-		
+		p.background(GameSettings.backcolor, 55);
+		handler.calculateChanges(p, dt, plt);	
 		
 		handler.displayActors(p, plt);
+		
+		p.textFont(fontMenu, 22);
+		p.fill(mainColor);
+		p.text("Score: "+handler.score, 30, 75);
 
 	}
 
-	private void displayGameOver(PApplet p) {
-		p.background(255);
-		p.textFont(fontStd, 22);
-		p.fill(0);
-		p.text("This is the Game Over screen!", p.width / 2, p.height / 2);
-		p.text("Final Score is "+handler.score, p.width / 2, 100);
+	private void displayGameOver(PApplet p, float dt) {
+		p.background(GameSettings.backcolor, 50);
+		p.textFont(fontMenu, 30);
+		p.fill(mainColor);
+		p.text("GAME OVER", (p.width / 2)-70, p.height / 2);
+		p.text("Final Score is "+handler.score, (p.width / 2)-20, 400);
 
 	}
 

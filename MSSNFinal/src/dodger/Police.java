@@ -8,6 +8,7 @@ import aa.Boid;
 import aa.Eye;
 import physics.Body;
 import processing.core.PApplet;
+import processing.core.PConstants;
 import processing.core.PVector;
 import tools.SubPlot;
 
@@ -64,6 +65,29 @@ public class Police extends Boid{
 				((Police)c).alive=false;
 			}
 		}
+	}
+	
+	@Override
+	public void setShape(PApplet p, SubPlot plt) {
+		float[] rr = plt.getDimInPixel(radius, radius);
+		
+		p.pushStyle();
+		
+		shape = p.createShape();
+		shape.beginShape();
+		shape.noStroke();
+		shape.fill(color);
+		shape.endShape(PConstants.CLOSE);
+		shape.vertex(-rr[0], rr[0]);
+		shape.vertex(rr[0], rr[0]/2);
+		shape.vertex(rr[0], -rr[0]/2);
+		shape.vertex(-rr[0], -rr[0]);
+		//shape without these 3 vertex also looks good
+		shape.vertex(-rr[0], -rr[0]/2);
+		shape.vertex(0, 0);
+		shape.vertex(-rr[0], rr[0]/2);
+		
+		p.popStyle();
 	}
 
 }

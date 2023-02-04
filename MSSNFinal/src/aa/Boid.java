@@ -13,7 +13,7 @@ import tools.SubPlot;
 public class Boid extends Body{
 	
 	private SubPlot plt;
-	private PShape shape;
+	protected PShape shape;
 	public DNABoid dna;
 	protected Eye eye;
 	protected List<Behavior> behaviors;
