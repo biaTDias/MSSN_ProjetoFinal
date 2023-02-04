@@ -10,7 +10,7 @@ import physics.*;
 import processing.core.PApplet;
 import processing.core.PVector;
 import tools.SubPlot;
-import ddf.minim.*;
+//import ddf.minim.*;
 
 public class GameHandler {
 	protected int score;
@@ -32,8 +32,8 @@ public class GameHandler {
 	private List<Integer> explosionsLife;
 	
 	// sounds
-	Minim minim;
-	AudioPlayer soundPlayer;
+//	Minim minim;
+//	AudioPlayer soundPlayer;
 
 
 
