@@ -3,7 +3,9 @@
 package dodger;
 
 import processing.core.PApplet;
+import processing.core.PConstants;
 import processing.core.PFont;
+import processing.core.PImage;
 import setup.IProcessingApp;
 import tools.SubPlot;
 
@@ -21,6 +23,8 @@ public class DodgerApp implements IProcessingApp {
 	int buttonY, buttonHeight, buttonWidth;
 	int[] buttonXs = new int [3];
 	
+	private PImage menuBackground;
+	
 	
 	@Override
 	public void setup(PApplet p) {
@@ -30,6 +34,8 @@ public class DodgerApp implements IProcessingApp {
 		
 		fontStd = p.createFont(GameSettings.fontStdFamily,GameSettings.fontStdSize,true);
 		fontMenu = p.createFont("Facon.otf", 128);
+		
+		menuBackground = p.loadImage("nfs-1.jpg");
 		
 		
 //		//Para ver as fonts disponiveis
@@ -73,23 +79,57 @@ public class DodgerApp implements IProcessingApp {
 	}
 
 	private void displayMenu(PApplet p) {
-		p.background(255);
+		
+		
+		p.image(menuBackground, 0, 0);
+		
+		p.pushStyle();
 		p.textFont(fontMenu);
+		float x = p.textWidth("Dodger Game");
+		float ScreenFontPosX = (p.width - x)/2;
 		
 		// Título
 		p.fill(p.color(196, 13, 0));
-		p.text("Dodger Game", p.width / 2, p.height / 2);
+		p.text("Dodger Game", ScreenFontPosX, p.height/3);
+		p.popStyle();
 		
 		// Botão Play
-		for(int i = 0; i < buttonXs.length; i++) {
-			if (p.mouseX >= buttonXs[i] && p.mouseX <= buttonXs[i]+buttonWidth && 
-				      p.mouseY >= buttonY && p.mouseY <= buttonY+buttonHeight) {
-				    displayGame(p, i);
-				    System.out.println("HEY");
-				    break;
-				  }
-		}
-
+		//p.pushStyle();
+//		p.textFont(fontStd);
+//		x = p.textWidth("START GAME");
+//		ScreenFontPosX = (p.width - x)/2;
+//		p.noStroke();
+//		p.rect(ScreenFontPosX-10, (p.height - GameSettings.fontStdSize)/1.8f, x + 20, GameSettings.fontStdSize +20);
+//		p.fill(0);
+//		p.text("START GAME", ScreenFontPosX, (p.height - GameSettings.fontStdSize)/1.8f);
+//		
+		
+		p.textFont(fontStd);
+		
+		p.fill(255);
+		x = p.textWidth("START GAME");
+		p.noStroke();
+		p.rectMode(PConstants.CENTER);
+		p.rect(p.width/2, p.height/2 ,x + 30, GameSettings.fontStdSize + 30);
+		p.fill(0);
+		p.textAlign(PConstants.CENTER, PConstants.CENTER);
+		p.text("START GAME", p.width/2-1, p.height/2-4);
+		
+		if (p.mouseX >= p.width/2 - (x+30)/2 && p.mouseX <= p.width/2 + (x+30)/2 && 
+			      p.mouseY >= p.height/2-(GameSettings.fontStdSize + 30)/2 && p.mouseY <= p.height/2+(GameSettings.fontStdSize + 30)/2) 
+			    handler.state = State.PLAYING;
+			  
+		
+		
+//		for(int i = 0; i < buttonXs.length; i++) {
+//			if (p.mouseX >= buttonXs[i] && p.mouseX <= buttonXs[i]+buttonWidth && 
+//				      p.mouseY >= buttonY && p.mouseY <= buttonY+buttonHeight) {
+//				    handler.state = State.PLAYING;
+//				    
+//				    break;
+//				  }
+//		}
+		
 	}
 
 	private void displayPause(PApplet p) {
@@ -129,8 +169,7 @@ public class DodgerApp implements IProcessingApp {
 
 	@Override
 	public void mousePressed(PApplet p) {
-		// TODO Auto-generated method stub
-
+		
 	}
 
 	@Override
