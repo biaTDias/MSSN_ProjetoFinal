@@ -2,8 +2,13 @@
 
 package dodger;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 import aa.*;
 import physics.*;
@@ -30,12 +35,16 @@ public class GameHandler {
 	// memory without need
 	private List<ParticleSystem> explosions;
 	private List<Integer> explosionsLife;
-	
+
 	// sounds
 //	Minim minim;
 //	AudioPlayer soundPlayer;
 
-
+	// High Scores
+	private String scoresFile;
+	private String delimiter;
+	private Scanner scanner;
+	private ArrayList<String> scores;
 
 	// ###########################################################################################################
 	// New Game setup
@@ -43,7 +52,7 @@ public class GameHandler {
 	protected void setup(PApplet p, SubPlot plt, int mainColor) {
 		score = 0;
 		noNewCarCounter = 0;
-		this.mColor=mainColor;
+		this.mColor = mainColor;
 
 		// create player
 		double[] ww = plt.getWorldCoord(p.width / 2, p.height / 2);
@@ -64,10 +73,33 @@ public class GameHandler {
 		// Explosions set up
 		explosions = new ArrayList<ParticleSystem>();
 		explosionsLife = new ArrayList<Integer>();
-		
+
 //		//sound
 //		minim = new Minim(this);
 //		soundPlayer = minim.loadFile("explosionSound.wav");
+
+		// High Scores set up
+		scoresFile = GameSettings.scoresFile;
+		delimiter = GameSettings.scoresDelim;
+		scores = new ArrayList<String>();
+
+		System.out.println("High Scores on set-up:");
+		try {
+			File file = new File(scoresFile);
+			scanner = new Scanner(file);
+			while (scanner.hasNextLine()) {
+				String line = scanner.nextLine();
+				String[] tempScores = line.split(delimiter);
+
+				for (String s : tempScores) {
+					scores.add(s);
+					System.out.println(s);
+				}
+			}
+			scanner.close();
+		} catch (FileNotFoundException e) {
+			System.out.println("File not found: " + scoresFile);
+		}
 
 	}
 
@@ -125,6 +157,8 @@ public class GameHandler {
 		player.applyBehaviors(dt);
 		if (player.choque((ArrayList<Body>) cars)) {
 			state = State.DEAD;
+			if (score > 0)
+				addScore(score);
 		}
 
 		// Police changes
@@ -132,9 +166,9 @@ public class GameHandler {
 			Police c = (Police) cars.get(carCount);
 			c.checkColision(cars);
 			if (!((Police) c).alive) {
-				//explosion
-				PSControl psc = new PSControl(GameSettings.velParams, GameSettings.lifetimeParams, GameSettings.radiusParams,
-						GameSettings.flow, p.color(220));
+				// explosion
+				PSControl psc = new PSControl(GameSettings.velParams, GameSettings.lifetimeParams,
+						GameSettings.radiusParams, GameSettings.flow, p.color(220));
 				ParticleSystem ps = new ParticleSystem(c.getPos(), new PVector(), 2f, 0.2f, psc);
 				explosions.add(ps);
 				int eL = 0;
@@ -168,6 +202,7 @@ public class GameHandler {
 
 	}
 
+	// Display all elements of the game
 	protected void displayActors(PApplet p, SubPlot plt) {
 		player.display(p, plt);
 		for (Body c : cars) {
@@ -175,6 +210,51 @@ public class GameHandler {
 		}
 		for (ParticleSystem ps : explosions) {
 			ps.display(p, plt);
+		}
+	}
+
+	// return the list of the high scores
+	protected ArrayList<String> getHighscores() {
+		if (scores.size() <= 0) {
+			System.out.println("empty scores");
+		}
+		return scores;
+	}
+
+	// calculate and add new highscore if it matches criteria
+	private void addScore(int sc) {
+		int i = 0;
+		for (String s : scores) {
+			// if score is same then it keeps the old one
+			try {
+				int value = Integer.valueOf(s.trim());
+				if (value < sc && i <= GameSettings.maxNumbSavedScores - 1) {
+					scores.add(i, String.valueOf(sc));
+					alterScoreFile();
+				}
+			} catch (NumberFormatException e) {
+				System.out.println("Error: " + s + " is not a valid integer");
+			}
+			i++;
+		}
+		// if there's still space in highscores
+		if (i < GameSettings.maxNumbSavedScores - 1) {
+			scores.add(String.valueOf(sc));
+			alterScoreFile();
+		}
+	}
+
+	private void alterScoreFile() {
+		try {
+			FileWriter writer = new FileWriter(scoresFile);
+			for (String s : scores) {
+				writer.write("/n" + s);
+			}
+			writer.close();
+			System.out.println("Scores file updated");
+		} catch (IOException e) {
+			System.out.println("Error writing to file: " + scoresFile);
+			e.printStackTrace();
 		}
 	}
 

@@ -9,7 +9,7 @@ package dodger;
 import processing.core.PApplet;
 
 
-public class GameSettings extends PApplet{
+public class GameSettings{
 	//width e weight da janela usados em ProcessingSetup
 	public final static int width = 1200;
 	public final static int height = 700;
@@ -35,4 +35,9 @@ public class GameSettings extends PApplet{
 	public final static float[] lifetimeParams = {0.1f, 0.7f};
 	public final static float[] radiusParams = {0.1f, 0.2f};
 	public final static float flow = 90f;
+	
+	//High Scores saving settings
+	public final static String scoresFile = "scores.txt";
+	public final static String scoresDelim = "/n";
+	public final static int maxNumbSavedScores = 10;
 }

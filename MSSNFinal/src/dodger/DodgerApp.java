@@ -116,6 +116,14 @@ public class DodgerApp implements IProcessingApp {
 		p.text("GAME OVER", (p.width / 2)-70, p.height / 2);
 		p.text("Final Score is "+handler.score, (p.width / 2)-20, 400);
 
+		int scorePos = 50;
+		p.text("High Scores", 50, scorePos);
+		
+		for(String s : handler.getHighscores()) {
+			scorePos+=60;
+			p.text(s, 70, scorePos);
+		}
+
 	}
 
 	// ###########################################################################################################
