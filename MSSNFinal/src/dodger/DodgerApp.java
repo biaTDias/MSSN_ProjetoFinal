@@ -70,7 +70,7 @@ public class DodgerApp implements IProcessingApp {
 		//Botoes Paused
 		btnsPaused = new ArrayList <Button>();
 		btnsPaused.add(new Button(GameSettings.middleX, GameSettings.middleY, "RESUME", fontStd, State.PLAYING, p));
-		btnsPaused.add(new Button(GameSettings.middleX + 40, GameSettings.middleY + 40, "QUIT", fontStd, State.MENU, p));
+		btnsPaused.add(new Button(GameSettings.middleX , GameSettings.middleY + 60, "QUIT", fontStd, State.MENU, p));
 		
 	}
 	
@@ -146,14 +146,14 @@ public class DodgerApp implements IProcessingApp {
 	}
 
 	private void displayPause(PApplet p) {
-		p.background(GameSettings.backcolor, 80);
-		p.textFont(fontStd, 22);
-		p.fill(0);
-		p.text("This is the Pause menu!", p.width / 2, p.height / 2);
 		
 		//Botao Pausa
 		for(Button  b: btnsPaused)
 			b.display(p);
+		
+		if(p.keyPressed)
+			if(p.key == ' ' && handler.state == State.PAUSED) 
+				handler.state = State.PLAYING;
 		
 
 	}
@@ -168,6 +168,11 @@ public class DodgerApp implements IProcessingApp {
 		p.textFont(fontMenu, 22);
 		p.fill(mainColor);
 		p.text("Score: " + handler.score, 30, 75);
+		
+		if(p.keyPressed)
+			if(p.key == ' ' && handler.state == State.PLAYING) 
+				handler.state = State.PAUSED;
+		
 
 	}
 
@@ -198,7 +203,7 @@ public class DodgerApp implements IProcessingApp {
 		p.text("Final Score is " + handler.score, gap, 400);
 		
 		
-		//Botao Pausa
+		//Botao GameOVer
 		for(Button  b: btnsDead)
 			b.display(p);
 
@@ -220,8 +225,13 @@ public class DodgerApp implements IProcessingApp {
 			break;
 		case PAUSED:
 			// pause screen
-			for(Button b: btnsPaused)
-				handler.state = b.isInside(s, p);
+			for(Button b: btnsPaused) {
+				State nxt = b.isInside(s, p);
+				if(nxt != handler.state) {
+					handler.state = nxt;
+					break;
+				}	
+			}
 			break;
 		case PLAYING:
 			break;
@@ -240,9 +250,8 @@ public class DodgerApp implements IProcessingApp {
 	}
 
 	@Override
-	public void keyPressed(PApplet p) {
-		// TODO Auto-generated method stub
-
+	public void keyPressed(PApplet p) { 
+		
 	}
 
 	@Override
