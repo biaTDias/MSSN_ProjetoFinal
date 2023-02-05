@@ -223,22 +223,24 @@ public class GameHandler {
 
 	// calculate and add new highscore if it matches criteria
 	private void addScore(int sc) {
-		int i = 0;
-		for (String s : scores) {
+		for (int i = 0; i < scores.size(); i++) {
 			// if score is same then it keeps the old one
+			String s = scores.get(i);
 			try {
 				int value = Integer.valueOf(s.trim());
 				if (value < sc && i <= GameSettings.maxNumbSavedScores - 1) {
 					scores.add(i, String.valueOf(sc));
+					if (scores.size() >= GameSettings.maxNumbSavedScores)
+						scores.remove(GameSettings.maxNumbSavedScores - 1);
 					alterScoreFile();
+					return;
 				}
 			} catch (NumberFormatException e) {
 				System.out.println("Error: " + s + " is not a valid integer");
 			}
-			i++;
 		}
 		// if there's still space in highscores
-		if (i < GameSettings.maxNumbSavedScores - 1) {
+		if (scores.size() < GameSettings.maxNumbSavedScores) {
 			scores.add(String.valueOf(sc));
 			alterScoreFile();
 		}
@@ -247,9 +249,14 @@ public class GameHandler {
 	private void alterScoreFile() {
 		try {
 			FileWriter writer = new FileWriter(scoresFile);
-			for (String s : scores) {
-				writer.write("/n" + s);
+			int i;
+			for (i = 0; i < scores.size() - 1; i++) {
+				String s = scores.get(i);
+				if (s != "")
+					writer.write(s + "/n");
 			}
+			String s = scores.get(i);
+			writer.write(s);
 			writer.close();
 			System.out.println("Scores file updated");
 		} catch (IOException e) {
