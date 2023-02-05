@@ -156,9 +156,10 @@ public class GameHandler {
 		playerTarget.setPos(new PVector((float) ww[0], (float) ww[1]));
 		player.applyBehaviors(dt);
 		if (player.choque((ArrayList<Body>) cars)) {
-			state = State.DEAD;
 			if (score > 0)
 				addScore(score);
+			state = State.DEAD;
+			
 		}
 
 		// Police changes
@@ -224,7 +225,6 @@ public class GameHandler {
 	// calculate and add new highscore if it matches criteria
 	private void addScore(int sc) {
 		for (int i = 0; i < scores.size(); i++) {
-			// if score is same then it keeps the old one
 			String s = scores.get(i);
 			try {
 				int value = Integer.valueOf(s.trim());
@@ -239,6 +239,7 @@ public class GameHandler {
 				System.out.println("Error: " + s + " is not a valid integer");
 			}
 		}
+		
 		// if there's still space in highscores
 		if (scores.size() < GameSettings.maxNumbSavedScores) {
 			scores.add(String.valueOf(sc));

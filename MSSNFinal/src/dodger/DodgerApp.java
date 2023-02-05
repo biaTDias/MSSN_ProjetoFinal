@@ -39,6 +39,7 @@ public class DodgerApp implements IProcessingApp {
 	@Override
 	public void setup(PApplet p) {
 		
+		
 		plt = new SubPlot(window, viewport, p.width, p.height);
 		mainColor = p.color(GameSettings.PlayerColors[0], GameSettings.PlayerColors[1], GameSettings.PlayerColors[2]);
 		handler.setup(p, plt, mainColor);
@@ -167,13 +168,11 @@ public class DodgerApp implements IProcessingApp {
 		
 		p.textFont(fontMenu, 22);
 		p.fill(mainColor);
-		p.text("Score: " + handler.score, 30, 75);
-		
+		p.text("Score: " + handler.score, GameSettings.width/9, GameSettings.height/9);
 		if(p.keyPressed)
 			if(p.key == ' ' && handler.state == State.PLAYING) 
 				handler.state = State.PAUSED;
-		
-
+				
 	}
 
 	private void displayGameOver(PApplet p, float dt) {
