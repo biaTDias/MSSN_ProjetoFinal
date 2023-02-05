@@ -228,10 +228,11 @@ public class GameHandler {
 			String s = scores.get(i);
 			try {
 				int value = Integer.valueOf(s.trim());
-				if (value < sc && i <= GameSettings.maxNumbSavedScores - 1) {
+				if (value < sc) {
 					scores.add(i, String.valueOf(sc));
+					System.out.println("New High score");
 					if (scores.size() >= GameSettings.maxNumbSavedScores)
-						scores.remove(GameSettings.maxNumbSavedScores - 1);
+						scores.remove(GameSettings.maxNumbSavedScores);
 					alterScoreFile();
 					return;
 				}
@@ -242,6 +243,7 @@ public class GameHandler {
 		
 		// if there's still space in highscores
 		if (scores.size() < GameSettings.maxNumbSavedScores) {
+			System.out.println("New High score");
 			scores.add(String.valueOf(sc));
 			alterScoreFile();
 		}
