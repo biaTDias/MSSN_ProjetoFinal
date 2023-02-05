@@ -21,7 +21,7 @@ public class GameHandler {
 	protected int score;
 	protected int mColor;
 	// se calhar mudar para private e fazer um getter? more game state protection
-	protected State state = State.PLAYING;
+	protected State state = State.MENU;
 
 	protected Player player;
 	private Body playerTarget;
